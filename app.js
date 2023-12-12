@@ -22,37 +22,53 @@ const playRound = (playerSelection, computerSelection) => {
   }
 };
 
-const game = () => {
-  const gameRound = 5;
-  let userWinCount = 0;
-  let comWinCount = 0;
-  for (let round = 0; round < 5; round++) {
-    const playerSelection = prompt(
-      "Please enter your choice among Rock, Paper and Scissors"
-    );
-    const [result, userScore, comWinScore] = playRound(
-      playerSelection,
-      getComputerChoice()
-    );
-    console.log(result);
-    userWinCount += userScore;
-    comWinCount += comWinScore;
-    if (userWinCount === 3 || comWinCount === 3) {
-      break;
-    }
-  }
-  if (userWinCount === 3) {
-    console.log("You Win!");
+const rockBtn = document.querySelector("#rock");
+const paperBtn = document.querySelector("#paper");
+const scissorsBtn = document.querySelector("#scissors");
+const userScore = document.querySelector("#user-score");
+const comScore = document.querySelector("#com-score");
+const result = document.querySelector("#result");
+let userCount = 0;
+let comCount = 0;
+
+const checkWinner = () => {
+  if (userCount === 5) {
+    userCount = 0;
+    comCount = 0;
+    result.textContent = "You win! Game Reset.";
+  } else if (comCount === 5) {
+    userCount = 0;
+    comCount = 0;
+    result.textContent = "You Lose! Game Reset.";
   } else {
-    console.log("You Lose!");
+    return;
   }
 };
 
-game();
-
-/* for test */
-// console.log(playRound("Rock", "Scissors"));
-// console.log(playRound("Scissors", "Rock"));
-// console.log(playRound("Rock", "Paper"));
-// console.log(playRound("Paper", "Scissors"));
-// console.log(playRound("Scissors", "Scissors"));
+rockBtn.addEventListener("click", () => {
+  const [res, us, cs] = playRound("rock", getComputerChoice());
+  result.textContent = res;
+  userCount += us;
+  comCount += cs;
+  userScore.textContent = `Your Score: ${userCount}`;
+  comScore.textContent = `Computer Score: ${comCount}`;
+  checkWinner();
+});
+paperBtn.addEventListener("click", () => {
+  const [res, us, cs] = playRound("paper", getComputerChoice());
+  result.textContent = res;
+  userCount += us;
+  comCount += cs;
+  userScore.textContent = `Your Score: ${userCount}`;
+  comScore.textContent = `Computer Score: ${comCount}`;
+  checkWinner();
+});
+scissorsBtn.addEventListener("click", () => {
+  const [res, us, cs] = playRound("scissors", getComputerChoice());
+  result.textContent = res;
+  userCount += us;
+  comCount += cs;
+  userScore.textContent = `Your Score: ${userCount}`;
+  comScore.textContent = `Computer Score: ${comCount}`;
+  checkWinner();
+});
